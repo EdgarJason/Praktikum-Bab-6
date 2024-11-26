@@ -1,0 +1,126 @@
+// EDGAR JASON HUSIN - 245150201111047 - TIF - F
+
+package EdgarJasonHusin;
+
+public class Perpustakaan {
+    private Buku[] koleksiBuku;
+    private Peminjaman[] daftarPeminjaman;
+    private int jumlahBuku;
+    private int jumlahPeminjaman;
+
+    // constructor
+    public Perpustakaan(int kapasitasBuku, int kapasitasPeminjaman) {
+        koleksiBuku = new Buku[kapasitasBuku];
+        daftarPeminjaman = new Peminjaman[kapasitasPeminjaman];
+        jumlahBuku = 0;
+        jumlahPeminjaman = 0;
+    }
+
+    // method untuk menambah buku
+    public void tambahBuku(Buku buku, boolean tampilkanPesan) {
+        if (jumlahBuku < koleksiBuku.length) {
+            koleksiBuku[jumlahBuku] = buku;
+            jumlahBuku++;
+            if (tampilkanPesan) {
+                System.out.println("Buku berhasil ditambahkan.");
+            }
+        } else {
+            System.out.println("Kapasitas buku penuh.");
+        }
+    }
+
+    // method untuk menampilkan koleksi buku dalam bentuk tabel dan dikelompokkan berdasarkan genre
+    public void tampilkanKoleksiBuku() {
+        String[] genres = {"Misteri", "Drama", "Fantasi", "Sains", "Romantis", "Petualangan", "Sejarah", "Biografi", "Motivasi", "Geografi"};
+        for (String genre : genres) {
+            System.out.println("-------------------------------------------------------------------");
+            System.out.println("Genre: " + genre);
+
+            for (int i = 0; i < jumlahBuku; i++) {
+                Buku buku = koleksiBuku[i];
+                if (buku.getGenre().equalsIgnoreCase(genre)) {
+                    System.out.printf("""
+                            Kode    : %s
+                            Judul   : %s
+                            Penulis : %s
+                            Tahun   : %d
+                            Status  : %s
+                            -------------------------------------------------------------------
+                            """,buku.getKode(), buku.getJudul(), buku.getPenulis(), buku.getTahun(), (buku.isStatusDipinjam()?"Dipinjam":"Tidak Dipinjam"));
+                }
+            }
+        }
+    }
+
+    // method untuk meminjam buku
+    public void pinjamBuku(String kodeBuku, String namaPeminjam, String tanggalPinjam) {
+        for (int i = 0; i < jumlahBuku; i++) {
+            Buku buku = koleksiBuku[i];
+            if (buku.getKode().equalsIgnoreCase(kodeBuku)) {
+                if (!buku.isStatusDipinjam()) {
+                    if (jumlahPeminjaman < daftarPeminjaman.length) {
+                        Peminjaman peminjaman = new Peminjaman(buku, namaPeminjam, tanggalPinjam);
+                        daftarPeminjaman[jumlahPeminjaman] = peminjaman;
+                        jumlahPeminjaman++;
+                        System.out.println("Buku berhasil dipinjam.");
+                        return;
+                    } else {
+                        System.out.println("Kapasitas peminjaman penuh.");
+                        return;
+                    }
+                } else {
+                    System.out.println("Maaf, buku sudah dipinjam.");
+                    return;
+                }
+            }
+        }
+        System.out.println("Kode buku tidak valid.");
+    }
+
+    // method untuk menampilkan daftar peminjaman
+    public void tampilkanDaftarPeminjaman() {
+        for (int i = 0; i < jumlahPeminjaman; i++) {
+            Peminjaman peminjaman = daftarPeminjaman[i];
+            System.out.printf("""
+                    (Peminjam ke-%d)
+                    Buku           : %s
+                    Peminjam       : %s
+                    Tanggal Pinjam : %s
+                    
+                    """,(i+1),peminjaman.getBuku().getJudul(), peminjaman.getNamaPeminjam(), peminjaman.getTanggalPinjam());
+        }
+    }
+
+    // method untuk mengembalikan buku
+    public void kembalikanBuku(String kodeBuku) {
+        for (int i = 0; i < jumlahPeminjaman; i++) {
+            Peminjaman peminjaman = daftarPeminjaman[i];
+            if (peminjaman.getBuku().getKode().equalsIgnoreCase(kodeBuku)) {
+                peminjaman.getBuku().setStatusDipinjam(false);
+                System.out.println("Buku berhasil dikembalikan.");
+                // Hapus peminjaman dari daftar
+                for (int j = i; j < jumlahPeminjaman - 1; j++) {
+                    daftarPeminjaman[j] = daftarPeminjaman[j + 1];
+                }
+                jumlahPeminjaman--;
+                return;
+            }
+        }
+        System.out.println("Buku dengan kode tersebut tidak sedang dipinjam.");
+    }
+
+    // method untuk menghapus buku
+    public void hapusBuku(String kodeBuku) {
+        for (int i = 0; i < jumlahBuku; i++) {
+            if (koleksiBuku[i].getKode().equalsIgnoreCase(kodeBuku)) {
+                for (int j = i; j < jumlahBuku - 1; j++) {
+                    koleksiBuku[j] = koleksiBuku[j + 1];
+                }
+                jumlahBuku--;
+                System.out.println("Buku berhasil dihapus.");
+                return;
+            }
+        }
+        System.out.println("Buku dengan kode tersebut tidak ditemukan.");
+    }
+}
