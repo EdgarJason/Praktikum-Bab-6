@@ -1,0 +1,43 @@
+// EDGAR JASON HUSIN - 245150201111047 - TIF - F
+
+package EdgarJasonHusin;
+
+public class Peminjaman {
+    private Buku buku;
+    private String namaPeminjam;
+    private String tanggalPinjam;
+
+    // Constructor
+    public Peminjaman(Buku buku, String namaPeminjam, String tanggalPinjam) {
+        this.buku = buku;
+        this.namaPeminjam = namaPeminjam;
+        this.tanggalPinjam = tanggalPinjam;
+        this.buku.setStatusDipinjam(true);
+    }
+
+    // Getter
+    public Buku getBuku() {
+        return buku;
+    }
+
+    public String getNamaPeminjam() {
+        return namaPeminjam;
+    }
+
+    public String getTanggalPinjam() {
+        return tanggalPinjam;
+    }
+
+    // Setter
+    public void setBuku(Buku buku) {
+        this.buku = buku;
+    }
+
+    public void setNamaPeminjam(String namaPeminjam) {
+        this.namaPeminjam = namaPeminjam;
+    }
+
+    public void setTanggalPinjam(String tanggalPinjam) {
+        this.tanggalPinjam = tanggalPinjam;
+    }
+}
