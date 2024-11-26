@@ -1,0 +1,219 @@
+// EDGAR JASON HUSIN - 245150201111047 - TIF - F
+
+package EdgarJasonHusin;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Perpustakaan perpustakaan = new Perpustakaan(50, 50);
+        int code=11;
+
+        perpustakaan.tambahBuku(new Buku("B123/1", "Misteri di Balik Kodingan Error", "Budiono Siregar", 2021, "Misteri"), false);
+        perpustakaan.tambahBuku(new Buku("B223/2", "Azab Mahasiswa yang Meminta Kodingan Temannya", "Edgar Jason Husin", 2019, "Drama"), false);
+        perpustakaan.tambahBuku(new Buku("B323/3", "Imajinasi Seorang Wibu Akut", "Naruto", 2020, "Fantasi"), false);
+        perpustakaan.tambahBuku(new Buku("B423/4", "Pengantar Sastra Python", "Sigit Rendang", 2018, "Sains"), false);
+        perpustakaan.tambahBuku(new Buku("B553/5", "Kisah Cinta Terhalang Agama", "I Gusti Muhammad Yesus Gautama", 2022, "Romantis"), false);
+        perpustakaan.tambahBuku(new Buku("B654/6", "Petualangan Sapi Fapet", "Sapi Fapet", 2020, "Petualangan"), false);
+        perpustakaan.tambahBuku(new Buku("B732/7", "Sejarah Windah Basudara", "Windah Basudara", 2017, "Sejarah"), false);
+        perpustakaan.tambahBuku(new Buku("B823/8", "Kisah Biografi Sapi Fapet", "Sapi Fapet", 2021, "Biografi"), false);
+        perpustakaan.tambahBuku(new Buku("B923/9", "Cara Masuk Perusahaan Jalur Orang Dalam", "Jarwo", 2018, "Motivasi"), false);
+        perpustakaan.tambahBuku(new Buku("B101/10", "Kisah Kerajaan Sunda Empire", "Rangga Sasana", 2019, "Geografi"), false);
+
+        System.out.println("""
+                
+                SELAMAT DATANG DI SISTEM INFORMASI PENGELOLAAN BUKU PERPUSTAKAAN
+                Sebelum kita mulai, mari buat sebuah akun untuk seorang administrator
+                Masukkan password baru yang Anda inginkan dan jangan sampai lupa!
+                Password ini akan Anda gunakan untuk melakukan login di beberapa fitur khusus!
+                """);
+
+        System.out.print("Masukkan password baru Anda = ");
+        String currentPassword = scanner.nextLine();
+
+        System.out.println("Password berhasil disimpan!");
+
+        boolean running = true;
+        while (running) {
+            System.out.print("""
+                    -------------------------------------------------------
+                    SISTEM INFORMASI PENGELOLAAN BUKU PERPUSTAKAAN
+                    
+                    Menu
+                    1. Tambah Buku (Administrator Mode)
+                    2. Hapus Buku (Administrator Mode)
+                    3. Tampilkan Koleksi Buku
+                    4. Pinjam Buku
+                    5. Tampilkan Daftar Peminjaman
+                    6. Kembalikan Buku
+                    7. Setelan Administrator
+                    8. Keluar
+                    -------------------------------------------------------
+                    """);
+
+            System.out.print("Pilih menu: ");
+            int pilihan = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (pilihan) {
+                case 1:
+                    //mode administrator untuk tambah buku
+                    System.out.println("Anda memilih tambah buku");
+                    System.out.print("Masukkan password admin: ");
+                    String password = scanner.nextLine();
+                    if (password.equals(currentPassword)) {
+
+                        System.out.println("""
+                                
+                                PANDUAN PENGISIAN BUKU
+                                1. Masukkan judul buku, nama penulis, tahun terbit, serta genre sesuai
+                                   dengan instruksi dibawah.
+                                2. Inputkan Genre sesuai dengan kategori yang ada.
+                                """);
+
+                        System.out.print("Masukkan judul buku: ");
+                        String judul = scanner.nextLine();
+                        System.out.print("Masukkan penulis buku: ");
+                        String penulis = scanner.nextLine();
+                        System.out.print("Masukkan tahun terbit: ");
+                        int tahun = scanner.nextInt();
+                        scanner.nextLine();
+                        System.out.print("Masukkan genre buku: ");
+                        System.out.println("""
+                                Silahkan pilih sesuai kategori berikut
+                                1. Misteri
+                                2. Drama
+                                3. Fantasi
+                                4. Sains
+                                5. Romantis
+                                6. Petualangan
+                                7. Sejarah
+                                8. Biografi
+                                9. Motivasi
+                                10. Geografi
+                                """);
+
+                        System.out.print("Pilihan Anda = ");
+                        int pilihanGenre = scanner.nextInt();
+
+                        String genre = "";
+                        switch (pilihanGenre) {
+                            case 1 -> genre = "Misteri";
+                            case 2 -> genre = "Drama";
+                            case 3 -> genre = "Fantasi";
+                            case 4 -> genre = "Sains";
+                            case 5 -> genre = "Romantis";
+                            case 6 -> genre = "Petualangan";
+                            case 7 -> genre = "Sejarah";
+                            case 8 -> genre = "Biografi";
+                            case 9 -> genre = "Motivasi";
+                            case 10 -> genre = "Geografi";
+                            default -> System.out.println("Genre tidak sesuai");
+                        }
+
+                        String kode = "B"+(int)(Math.random()*1000)+"/"+code;
+                        code++;
+                        Buku buku = new Buku(kode, judul, penulis, tahun, genre);
+                        perpustakaan.tambahBuku(buku, true);
+                    } else {
+                        System.out.println("Password salah!");
+                    }
+                    break;
+                case 2:
+                    //mode admin untuk menghapus buku
+                    System.out.println("Anda memilih penghapusan buku");
+                    System.out.print("Masukkan password admin: ");
+                    password = scanner.nextLine();
+                    if (password.equals(currentPassword)) {
+                        System.out.print("Masukkan kode buku yang akan dihapus: ");
+                        String kode = scanner.nextLine();
+                        perpustakaan.hapusBuku(kode);
+                    } else {
+                        System.out.println("Password salah!");
+                    }
+                    break;
+                case 3:
+                    //case menampilkan koleksi buku
+                    System.out.println("Anda memilih tampilkan koleksi buku");
+                    perpustakaan.tampilkanKoleksiBuku();
+                    break;
+                case 4:
+                    //case meminjam buku oleh user
+                    System.out.println("Anda memilih peminjaman buku");
+                    perpustakaan.tampilkanKoleksiBuku();
+                    System.out.print("Masukkan kode buku yang ingin dipinjam: ");
+                    String kode = scanner.nextLine();
+                    System.out.print("Masukkan nama peminjam: ");
+                    String namaPeminjam = scanner.nextLine();
+                    System.out.print("Masukkan tanggal pinjam (dd/mm/yyyy): ");
+                    String tanggalPinjam = scanner.nextLine();
+                    perpustakaan.pinjamBuku(kode, namaPeminjam, tanggalPinjam);
+                    break;
+                case 5:
+                    //case untuk daftar peminjaman buku
+                    System.out.println("Anda memilih daftar peminjaman buku");
+                    perpustakaan.tampilkanDaftarPeminjaman();
+                    break;
+                case 6:
+                    //case untuk pengembalian buku
+                    System.out.println("Anda memilih pengembalian buku");
+                    System.out.println("Berikut adalah daftar peminjam saat ini");
+                    perpustakaan.tampilkanDaftarPeminjaman();
+
+                    System.out.print("Masukkan kode buku yang ingin dikembalikan: ");
+                    kode = scanner.nextLine();
+                    perpustakaan.kembalikanBuku(kode);
+                    break;
+                case 7:
+                    //case untuk setelan administrator (mengganti password)
+                    System.out.println("Anda memilih setelan administrator");
+                    System.out.println("""
+                            Silahkan pilih menu berikut
+                            1. Ganti Password Admin
+                            2. Batal
+                            """);
+
+                    System.out.print("Pilihan Anda = ");
+
+                    int pilihanAdmin = scanner.nextInt();
+                    scanner.nextLine();
+
+                    switch (pilihanAdmin) {
+                        case 1:
+                            //case untuk mengganti password dalam menu setelan administrator
+                            System.out.println("Anda memilih untuk mengganti password Admin");
+                            System.out.print("Masukkan password lama : ");
+                            String passwordVerif = scanner.nextLine();
+
+                            if(passwordVerif.equals(currentPassword)) {
+                                System.out.print("Silahkan masukkan password baru : ");
+                                currentPassword = scanner.nextLine();
+
+                                System.out.println("Password berhasil diperbarui!");
+                            }
+                            else{
+                                System.out.println("Password salah, hayuk diingat-ingat lagi ya");
+                            }
+                        break;
+
+                        case 2:
+                            //case untuk keluar
+                            System.out.println("Anda memilih batal, terimakasih!");
+                        break;
+                    }
+                    break;
+
+                case 8:
+                    //case keluar dan menghentikan program
+                    System.out.println("Anda memilih keluar");
+                    running = false;
+                    System.out.println("Terima kasih!");
+                    break;
+                default:
+                    System.out.println("Pilihan tidak valid.");
+            }
+        }
+
+        scanner.close();
+    }
+}
